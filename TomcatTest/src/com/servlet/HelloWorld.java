@@ -1,6 +1,5 @@
 package com.servlet;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -10,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * Servlet implementation class HelloWorld
@@ -39,17 +40,19 @@ public class HelloWorld extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-        	response.setContentType("text/html");
+        	response.setContentType("text/json");
         	Statement stmt = con.createStatement();
 			ResultSet rst = stmt.executeQuery(String.format("SELECT * FROM %s",
 			        currentTable));
-			String word = "";
+			JSONArray jsonarray = new JSONArray();  
+			JSONObject jsonobj = new JSONObject(); 
 			while(rst.next()) {
 				long curId = rst.getLong("ID");
-				word = word + " " + Long.toString(curId);
+				jsonobj.put("ID", curId); 
+				jsonarray.add(jsonobj);
 			}
 			PrintWriter out = response.getWriter();
-			out.print(word);
+			out.println(jsonarray);
 			out.flush();
 			out.close();
 		} catch (SQLException e) {
