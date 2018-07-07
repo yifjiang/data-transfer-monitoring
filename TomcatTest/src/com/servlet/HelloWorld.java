@@ -30,8 +30,8 @@ public class HelloWorld extends HttpServlet {
      */
     public HelloWorld() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         super();
-        Class.forName(Config.sqlClass).newInstance();
-        con = DriverManager.getConnection(Config.sqlConnectionUrl);
+        Class.forName(ServerConfig.sqlClass).newInstance();
+        con = DriverManager.getConnection(ServerConfig.sqlConnectionUrl);
         currentTable = "test1";
     }
 

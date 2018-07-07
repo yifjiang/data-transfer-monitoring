@@ -10,5 +10,15 @@
       <servlet-name>helloWorld</servlet-name>
       <url-pattern>/hello</url-pattern>
   </servlet-mapping>
+
+    <servlet>
+        <servlet-name>countReceivedAPplied</servlet-name>
+        <servlet-class>com.servlet.CountsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>countReceivedAPplied</servlet-name>
+        <url-pattern>/counts</url-pattern>
+    </servlet-mapping>
   
 </web-app>

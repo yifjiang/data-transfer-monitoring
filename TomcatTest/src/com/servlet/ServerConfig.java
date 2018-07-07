@@ -1,8 +1,8 @@
 package com.servlet;
 
-public class Config {
+public class ServerConfig {
 	static String sqlConnectionUrl = "jdbc:sqlserver://localhost:1433;" +
-            "databaseName=testDB;" +
+            "databaseName=testMSSQL;" +
             "user=sa;password=Vm450Group7;";
 
     static String sqlClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
