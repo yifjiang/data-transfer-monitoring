@@ -32,22 +32,46 @@ public class CountsServlet extends HttpServlet {
             con = DriverManager.getConnection(ClientConfig.sqlConnectionUrl);
             response.setContentType("text/json");
             Statement stmt = con.createStatement();
-            JSONObject jsonObject = new JSONObject();
-            for (String tableName:ClientConfig.tableNames){
-                System.out.println(tableName);
-                ResultSet rst = stmt.executeQuery(
-                        String.format(
-                                "SELECT COUNT(*) AS count FROM %s WHERE dateAndTime > NOW() - %d",
-                                tableName,
-                                ClientConfig.timeInterval
-                        )
-                );
-                while (rst.next()){
-                    jsonObject.put(tableName, rst.getInt("count"));
-                }
+            JSONObject optionJSON = new JSONObject();
+            JSONObject xAxisJSON = new JSONObject();
+            JSONObject yAxisJSON = new JSONObject();
+            xAxisJSON.put("type", "category");
+            yAxisJSON.put("type", "value");
+            optionJSON.put("yAxis", yAxisJSON);
+            JSONArray xAxisArray = new JSONArray();
+            for (int time = ClientConfig.timeInterval; time > 0; time -= ClientConfig.timeStep){
+                ResultSet rst = stmt.executeQuery("SELECT NOW() - "+time+" AS theTime");
+                while (rst.next()) xAxisArray.add(rst.getString("theTime"));
             }
+            xAxisJSON.put("data", xAxisArray);
+            optionJSON.put("xAxis", xAxisJSON);
+            JSONArray seriesJSON = new JSONArray();
+            for (String tableName:ClientConfig.tableNames){
+                JSONObject yJSON = new JSONObject();
+                JSONArray yArray = new JSONArray();
+                System.out.println(tableName);
+                for (int time = ClientConfig.timeInterval; time > 0; time -= ClientConfig.timeStep){
+                    ResultSet rst = stmt.executeQuery(
+                            String.format(
+                                    "SELECT COUNT(*) AS count FROM %s WHERE dateAndTime > NOW() - %d AND dateAndTime <= NOW() - %d",
+                                    tableName,
+                                    time,
+                                    time - ClientConfig.timeStep
+                            )
+                    );
+                    while (rst.next()){
+                        yArray.add(rst.getInt("count"));
+                    }
+                    yJSON.put("data", yArray);
+                    yJSON.put("type", "line");
+                    yJSON.put("smooth", true);
+                }
+//                optionJSON.put(tableName, yArray);
+                seriesJSON.add(yJSON);
+            }
+            optionJSON.put("series", seriesJSON);
             PrintWriter out = response.getWriter();
-            out.println(jsonObject);;
+            out.println(optionJSON);;
             out.flush();
             out.close();
         } catch (SQLException e) {

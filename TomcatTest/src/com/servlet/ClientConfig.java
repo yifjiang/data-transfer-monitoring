@@ -6,7 +6,9 @@ public class ClientConfig {
 
 	static String[] tableNames = {"receiveCount", "appliedCount"};
 
-	static int timeInterval = 100000;
+	static int timeInterval = 10000;
+
+	static int timeStep = 500;
 
     static String sqlClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     static String hostAddress = "localhost";
