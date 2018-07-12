@@ -13,12 +13,22 @@
 
     <servlet>
         <servlet-name>countReceivedAPplied</servlet-name>
-        <servlet-class>com.servlet.CountsServlet</servlet-class>
+        <servlet-class>com.servlet.client.CountsServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>countReceivedAPplied</servlet-name>
         <url-pattern>/counts</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>serverCounts</servlet-name>
+        <servlet-class>com.servlet.client.CountsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>serverCounts</servlet-name>
+        <url-pattern>/serverCounts</url-pattern>
     </servlet-mapping>
 
 	<filter>

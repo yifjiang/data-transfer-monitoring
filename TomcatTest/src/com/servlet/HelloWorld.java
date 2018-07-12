@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
+
+import com.servlet.server.ServerConfig;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -30,8 +32,9 @@ public class HelloWorld extends HttpServlet {
      */
     public HelloWorld() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         super();
-        Class.forName(ServerConfig.sqlClass).newInstance();
-        con = DriverManager.getConnection(ServerConfig.sqlConnectionUrl);
+        ServerConfig serverConfig = new ServerConfig();
+        Class.forName(serverConfig.getSqlClass()).newInstance();
+        con = DriverManager.getConnection(serverConfig.getSqlConnectionUrl());
         currentTable = "test1";
     }
 
