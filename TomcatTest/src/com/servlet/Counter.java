@@ -78,6 +78,8 @@ public class Counter {
         legendObject.put("data", legendJSON);
         optionJSON.put("legend", legendObject);
         optionJSON.put("series", seriesJSON);
+        DateTimeFormatter onlyDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        optionJSON.put("date", LocalDateTime.now().format(onlyDateFormat));
         System.out.println(optionJSON);
         return optionJSON;
     }
