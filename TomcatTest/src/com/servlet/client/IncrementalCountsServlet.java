@@ -10,17 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
+import java.sql.SQLException;
 
-@WebServlet(name = "CountsServlet")
-public class CountsServlet extends HttpServlet {
-
-    Connection con;
-
-//    public CountsServlet() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-//        super();
-//    }
-
+@WebServlet(name = "IncrementalCountsServlet")
+public class IncrementalCountsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -29,7 +22,7 @@ public class CountsServlet extends HttpServlet {
         try {
             ClientConfig clientConfig = new ClientConfig();
             response.setContentType("text/json");
-            JSONObject optionJSON = (new Counter(clientConfig)).get(null);
+            JSONObject optionJSON = (new Counter(clientConfig)).get(request.getParameter("time"));
             PrintWriter out = response.getWriter();
             out.println(optionJSON);
             out.flush();

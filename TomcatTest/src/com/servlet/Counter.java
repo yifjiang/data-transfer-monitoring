@@ -16,7 +16,7 @@ public class Counter {
         config = inConfig;
     }
 
-    public JSONObject get() throws SQLException, ClassNotFoundException {
+    public JSONObject get(String timeString) throws SQLException, ClassNotFoundException {
         Class.forName(config.getSqlClass());
         con = DriverManager.getConnection(config.getSqlConnectionUrl());
         Statement stmt = con.createStatement();
@@ -31,6 +31,11 @@ public class Counter {
         LocalDateTime begin = end.minusMinutes(config.getTimeInterval());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         DateTimeFormatter categoryFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        if (timeString != null){
+            DateTimeFormatter queryDTF = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");//TODO:specify the time format
+            begin = LocalDateTime.parse(timeString, queryDTF).truncatedTo(ChronoUnit.MINUTES);
+            end = LocalDateTime.now();
+        }
         for (LocalDateTime time = begin; time.isBefore(end); time = time.plusSeconds(config.getTimeStep())){
             xAxisArray.add(time.format(categoryFormatter));
         }

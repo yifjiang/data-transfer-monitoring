@@ -22,7 +22,7 @@ public class ServerCountsServlet extends HttpServlet {
         try {
             ServerConfig serverConfig = new ServerConfig();
             response.setContentType("text/json");
-            JSONObject optionJSON = (new Counter(serverConfig)).get();
+            JSONObject optionJSON = (new Counter(serverConfig)).get(null);
             PrintWriter out = response.getWriter();
             out.println(optionJSON);
             out.flush();

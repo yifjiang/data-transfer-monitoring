@@ -9,9 +9,9 @@ public class ClientConfig implements Config {
 //    private static String[] tableNames = {"receiveCount", "appliedCount"};
     private static String[] tableNames = {"receiveCount"};
 
-    private static long timeInterval = 100;//in minutes
+    private static long timeInterval = 10;//in minutes
 
-    private static long timeStep = 300;//in seconds
+    private static long timeStep = 30;//in seconds
 
     private static String sqlClass = "com.mysql.cj.jdbc.Driver";
 

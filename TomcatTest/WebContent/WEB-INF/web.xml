@@ -21,9 +21,21 @@
         <url-pattern>/counts</url-pattern>
     </servlet-mapping>
 
+
+
+    <servlet>
+        <servlet-name>countIncremental</servlet-name>
+        <servlet-class>com.servlet.client.IncrementalCountsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>countIncremental</servlet-name>
+        <url-pattern>/countsIncremental</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>serverCounts</servlet-name>
-        <servlet-class>com.servlet.client.CountsServlet</servlet-class>
+        <servlet-class>com.servlet.server.ServerCountsServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

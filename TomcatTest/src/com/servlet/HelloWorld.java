@@ -15,7 +15,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class HelloWorld
+ * IncrementalCountsServlet implementation class HelloWorld
  */
 @WebServlet("/HelloWorld")
 public class HelloWorld extends HttpServlet {
