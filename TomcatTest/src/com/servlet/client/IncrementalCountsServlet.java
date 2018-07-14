@@ -10,10 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @WebServlet(name = "IncrementalCountsServlet")
 public class IncrementalCountsServlet extends HttpServlet {
+
+    Connection con;
+
+    public IncrementalCountsServlet() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+        super();
+        ClientConfig clientConfig = new ClientConfig();
+        Class.forName(clientConfig.getSqlClass());
+        con = DriverManager.getConnection(clientConfig.getSqlConnectionUrl());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -22,7 +34,7 @@ public class IncrementalCountsServlet extends HttpServlet {
         try {
             ClientConfig clientConfig = new ClientConfig();
             response.setContentType("text/json");
-            JSONObject optionJSON = (new Counter(clientConfig)).get(request.getParameter("time"));
+            JSONObject optionJSON = (new Counter(clientConfig, con)).get(request.getParameter("time"));
             PrintWriter out = response.getWriter();
             out.println(optionJSON);
             out.flush();

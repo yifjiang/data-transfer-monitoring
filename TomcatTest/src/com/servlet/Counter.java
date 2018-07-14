@@ -12,13 +12,12 @@ public class Counter {
     Connection con;
     Config config;
 
-    public Counter(Config inConfig){
+    public Counter(Config inConfig, Connection inCon){
         config = inConfig;
+        con = inCon;
     }
 
     public JSONObject get(String timeString) throws SQLException, ClassNotFoundException {
-        Class.forName(config.getSqlClass());
-        con = DriverManager.getConnection(config.getSqlConnectionUrl());
         Statement stmt = con.createStatement();
         JSONObject optionJSON = new JSONObject();
         JSONObject xAxisJSON = new JSONObject();

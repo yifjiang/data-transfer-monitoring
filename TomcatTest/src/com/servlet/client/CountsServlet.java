@@ -17,9 +17,12 @@ public class CountsServlet extends HttpServlet {
 
     Connection con;
 
-//    public CountsServlet() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-//        super();
-//    }
+    public CountsServlet() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+        super();
+        ClientConfig clientConfig = new ClientConfig();
+        Class.forName(clientConfig.getSqlClass());
+        con = DriverManager.getConnection(clientConfig.getSqlConnectionUrl());
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -29,7 +32,7 @@ public class CountsServlet extends HttpServlet {
         try {
             ClientConfig clientConfig = new ClientConfig();
             response.setContentType("text/json");
-            JSONObject optionJSON = (new Counter(clientConfig)).get(null);
+            JSONObject optionJSON = (new Counter(clientConfig, con)).get(null);
             PrintWriter out = response.getWriter();
             out.println(optionJSON);
             out.flush();
