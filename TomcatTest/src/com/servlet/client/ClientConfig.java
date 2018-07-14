@@ -44,4 +44,9 @@ public class ClientConfig implements Config {
     public String[] getCategoryNames() {
         return new String[]{"INSERT", "UPDATE", "DELETE"};
     }
+
+    @Override
+    public String getDBTimeZone(){
+        return null;
+    }
 }

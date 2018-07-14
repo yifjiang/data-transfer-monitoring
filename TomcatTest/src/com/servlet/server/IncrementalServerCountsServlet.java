@@ -14,12 +14,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@WebServlet(name = "ServerCountsServlet")
-public class ServerCountsServlet extends HttpServlet {
+@WebServlet(name = "IncrementalServerCountsServlet")
+public class IncrementalServerCountsServlet extends HttpServlet {
 
     Connection con;
 
-    public ServerCountsServlet() throws ClassNotFoundException, SQLException {
+    public IncrementalServerCountsServlet() throws ClassNotFoundException, SQLException {
         super();
         ServerConfig serverConfig = new ServerConfig();
         Class.forName(serverConfig.getSqlClass());
@@ -34,7 +34,7 @@ public class ServerCountsServlet extends HttpServlet {
         try {
             ServerConfig serverConfig = new ServerConfig();
             response.setContentType("text/json");
-            JSONObject optionJSON = (new Counter(serverConfig, con)).get(null);
+            JSONObject optionJSON = (new Counter(serverConfig, con)).get(request.getParameter("time"));
             PrintWriter out = response.getWriter();
             out.println(optionJSON);
             out.flush();

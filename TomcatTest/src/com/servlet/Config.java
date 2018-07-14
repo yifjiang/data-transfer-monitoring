@@ -12,4 +12,6 @@ public interface Config {
     long getTimeStep();//in seconds
 
     String[] getCategoryNames();
+
+    String getDBTimeZone();
 }

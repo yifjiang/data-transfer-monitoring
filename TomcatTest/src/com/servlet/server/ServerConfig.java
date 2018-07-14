@@ -4,14 +4,14 @@ import com.servlet.Config;
 
 public class ServerConfig implements Config {
 	static String sqlConnectionUrl = "jdbc:sqlserver://localhost:1433;" +
-            "databaseName=testMSSQL;" +
+            "databaseName=testMonitor;" +
             "user=sa;password=Vm450Group7;";
 
-    private static String[] tableNames = {"receiveCount", "appliedCount"};
+    private static String[] tableNames = {"capturedCount"};
 
     private static long timeInterval = 10;//in minutes
 
-    private static long timeStep = 30;//in seconds
+    private static long timeStep = 5;//in seconds
 
     static String sqlClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 
@@ -43,5 +43,10 @@ public class ServerConfig implements Config {
     @Override
     public String[] getCategoryNames() {
         return new String[]{"INSERT", "UPDATE", "DELETE"};
+    }
+
+    @Override
+    public String getDBTimeZone() {
+        return "Etc/UTC";
     }
 }
