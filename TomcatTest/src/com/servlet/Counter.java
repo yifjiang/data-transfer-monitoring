@@ -28,8 +28,11 @@ public class Counter {
         yAxisJSON.put("type", "value");
         optionJSON.put("yAxis", yAxisJSON);
         JSONArray xAxisArray = new JSONArray();
-        LocalDateTime begin = LocalDateTime.now().minusMinutes(config.getTimeInterval()).truncatedTo(ChronoUnit.MINUTES);
         LocalDateTime end = LocalDateTime.now();
+        while (end.getSecond() % config.getTimeStep() != 0){
+            end = end.minusSeconds(1);
+        }
+        LocalDateTime begin = end.minusMinutes(config.getTimeInterval());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         DateTimeFormatter categoryFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         if (timeString != null){
@@ -46,11 +49,13 @@ public class Counter {
         JSONArray legendJSON = new JSONArray();
         for (String tableName: config.getTableNames()){
             for (String changeTypeName: config.getCategoryNames()){
+                String preparedQuery = "SELECT COUNT(*) AS count FROM "+tableName+" WHERE dateAndTime > ? AND dateAndTime <= ? and changeType = '"+changeTypeName+"'";
+                PreparedStatement pstmt = con.prepareStatement(preparedQuery);
                 String lineName = tableName+" : "+changeTypeName;
                 legendJSON.add(lineName);
                 JSONObject yJSON = new JSONObject();
                 JSONArray yArray = new JSONArray();
-                System.out.println(tableName);
+//                System.out.println(tableName);
                 for (LocalDateTime time = begin; time.isBefore(end); time = time.plusSeconds(config.getTimeStep())){
                     String from = time.format(formatter);
                     String to = time.plusSeconds(config.getTimeStep()).format(formatter);
@@ -60,17 +65,10 @@ public class Counter {
                         from = time.atZone(currentZone).withZoneSameInstant(zoneId).format(formatter);
                         to = time.plusSeconds(config.getTimeStep()).atZone(currentZone).withZoneSameInstant(zoneId).format(formatter);
                     }
-                    String tmp = String.format(
-                            "SELECT COUNT(*) AS count FROM %s WHERE dateAndTime > '%s' AND dateAndTime <= '%s' and changeType = '%s'",
-                            tableName,
-                            from,
-                            to,
-                            changeTypeName
-                    );
+                    pstmt.setString(1, from);
+                    pstmt.setString(2, to);
 //                    System.out.println(tmp);
-                    ResultSet rst = stmt.executeQuery(
-                            tmp
-                    );
+                    ResultSet rst = pstmt.executeQuery();
                     while (rst.next()){
                         yArray.add(rst.getInt("count"));
                     }

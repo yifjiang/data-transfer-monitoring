@@ -9,7 +9,7 @@ public class ServerConfig implements Config {
 
     private static String[] tableNames = {"capturedCount"};
 
-    private static long timeInterval = 10;//in minutes
+    private static long timeInterval = 2;//in minutes
 
     private static long timeStep = 5;//in seconds
 
