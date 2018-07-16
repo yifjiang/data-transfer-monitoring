@@ -51,7 +51,7 @@ public class Counter {
             for (String changeTypeName: config.getCategoryNames()){
                 String preparedQuery = "SELECT COUNT(*) AS count FROM "+tableName+" WHERE dateAndTime > ? AND dateAndTime <= ? and changeType = '"+changeTypeName+"'";
                 PreparedStatement pstmt = con.prepareStatement(preparedQuery);
-                String lineName = tableName+" : "+changeTypeName;
+                String lineName = changeTypeName;
                 legendJSON.add(lineName);
                 JSONObject yJSON = new JSONObject();
                 JSONArray yArray = new JSONArray();
@@ -87,7 +87,10 @@ public class Counter {
         optionJSON.put("series", seriesJSON);
         DateTimeFormatter onlyDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         optionJSON.put("date", LocalDateTime.now().format(onlyDateFormat));
-        System.out.println(optionJSON);
+        JSONObject titleObject = new JSONObject();
+        titleObject.put("text", config.getTitle());
+        optionJSON.put("title", titleObject);
+//        System.out.println(optionJSON);
         return optionJSON;
     }
 }

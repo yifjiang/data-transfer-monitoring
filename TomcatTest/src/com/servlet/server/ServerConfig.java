@@ -49,4 +49,9 @@ public class ServerConfig implements Config {
     public String getDBTimeZone() {
         return "Etc/UTC";
     }
+
+    @Override
+    public String getTitle() {
+        return "Server-Side";
+    }
 }

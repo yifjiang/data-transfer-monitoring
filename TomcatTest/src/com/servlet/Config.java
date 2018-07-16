@@ -14,4 +14,6 @@ public interface Config {
     String[] getCategoryNames();
 
     String getDBTimeZone();
+
+    String getTitle();
 }

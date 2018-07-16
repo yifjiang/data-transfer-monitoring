@@ -49,4 +49,9 @@ public class ClientConfig implements Config {
     public String getDBTimeZone(){
         return null;
     }
+
+    @Override
+    public String getTitle() {
+        return "Client-Side";
+    }
 }
