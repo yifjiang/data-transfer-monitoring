@@ -29,9 +29,7 @@ public class Counter {
         optionJSON.put("yAxis", yAxisJSON);
         JSONArray xAxisArray = new JSONArray();
         LocalDateTime end = LocalDateTime.now();
-        while (end.getSecond() % config.getTimeStep() != 0){
-            end = end.minusSeconds(1);
-        }
+        end = end.minusSeconds(end.getSecond() % config.getTimeStep());
         LocalDateTime begin = end.minusMinutes(config.getTimeInterval());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         DateTimeFormatter categoryFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -49,7 +47,7 @@ public class Counter {
         JSONArray legendJSON = new JSONArray();
         for (String tableName: config.getTableNames()){
             for (String changeTypeName: config.getCategoryNames()){
-                String preparedQuery = "SELECT COUNT(*) AS count FROM "+tableName+" WHERE dateAndTime > ? AND dateAndTime <= ? and changeType = '"+changeTypeName+"'";
+                String preparedQuery = "SELECT SUM(count) AS count FROM "+tableName+" WHERE dateAndTime > ? AND dateAndTime <= ? and changeType = '"+changeTypeName+"'";
                 PreparedStatement pstmt = con.prepareStatement(preparedQuery);
                 String lineName = changeTypeName;
                 legendJSON.add(lineName);

@@ -53,6 +53,16 @@
         <url-pattern>/serverCountsIncremental</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>sysStats</servlet-name>
+        <servlet-class>com.servlet.SystemStatusServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>sysStats</servlet-name>
+        <url-pattern>/sysStats</url-pattern>
+    </servlet-mapping>
+
 	<filter>
         <filter-name>cors</filter-name>
         <filter-class>com.servlet.CORSFilter</filter-class>
